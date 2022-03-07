@@ -13,7 +13,7 @@ Done via Environment Variables:
 
 API calls:
 
-- Get all brands [GET]: `/route`. Example
+- Call routing service [GET]: `/route`. Example:
   ```sh
   curl -X GET http://localhost:8080/route
   ```
@@ -37,8 +37,6 @@ oc start-build rest-router
 ```
 
 ## Run Locally
-
-Requires podman or other container system
 
 ```sh
 
