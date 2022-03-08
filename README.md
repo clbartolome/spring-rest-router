@@ -22,6 +22,8 @@ API calls:
 
 Use following commands to deploy this model:
 
+![ocp](ocp.png)
+
 ```sh
 # Create project
 oc new-project rest-routing-test
@@ -39,23 +41,40 @@ oc start-build rest-router
 oc new-app --name app-a \
   -i rest-routing-test/rest-router:latest \
   -e APP_NAME=app-a \
-  -e APP_ROUTING_DESTINATION=http://app-b/route,http://app-c/route \
+  -e APP_ROUTING_DESTINATION=http://app-b:8080/route,http://app-c:8080/route \
   -n rest-routing-test
 
-oc expose svc application-a
+oc expose svc app-a
+
+oc label deploy app-a \
+  app.kubernetes.io/part-of=rest-router \
+  app.openshift.io/runtime=spring \
+  -n rest-routing-test
+oc annotate deploy app-a app.openshift.io/connects-to='[{"apiVersion":"apps/v1","kind":"Deployment","name":"app-b"},{"apiVersion":"apps/v1","kind":"Deployment","name":"app-c"}]' -n rest-routing-test
 
 # Deploy B
 oc new-app --name app-b \
   -i rest-routing-test/rest-router:latest \
   -e APP_NAME=app-b \
-  -e APP_ROUTING_DESTINATION=http://app-c/route \
+  -e APP_ROUTING_DESTINATION=http://app-d:8080/route \
   -n rest-routing-test
+
+oc label deploy app-b \
+  app.kubernetes.io/part-of=rest-router \
+  app.openshift.io/runtime=spring \
+  -n rest-routing-test
+oc annotate deploy app-b app.openshift.io/connects-to='[{"apiVersion":"apps/v1","kind":"Deployment","name":"app-d"}]' -n rest-routing-test
 
 # Deploy C
 oc new-app --name app-c \
   -i rest-routing-test/rest-router:latest \
   -e APP_NAME=app-c \
   -e APP_ROUTING_DESTINATION= \
+  -n rest-routing-test
+
+oc label deploy app-c \
+  app.kubernetes.io/part-of=rest-router \
+  app.openshift.io/runtime=spring \
   -n rest-routing-test
 
 # Deploy D
@@ -65,6 +84,10 @@ oc new-app --name app-d \
   -e APP_ROUTING_DESTINATION= \
   -n rest-routing-test
 
+oc label deploy app-d \
+  app.kubernetes.io/part-of=rest-router \
+  app.openshift.io/runtime=spring \
+  -n rest-routing-test
 
 ```
 
