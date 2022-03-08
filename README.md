@@ -34,6 +34,38 @@ oc new-build \
 
 # Build image
 oc start-build rest-router
+
+# Deploy A
+oc new-app --name app-a \
+  -i rest-routing-test/rest-router:latest \
+  -e APP_NAME=app-a \
+  -e APP_ROUTING_DESTINATION=http://app-b/route,http://app-c/route \
+  -n rest-routing-test
+
+oc expose svc application-a
+
+# Deploy B
+oc new-app --name app-b \
+  -i rest-routing-test/rest-router:latest \
+  -e APP_NAME=app-b \
+  -e APP_ROUTING_DESTINATION=http://app-c/route \
+  -n rest-routing-test
+
+# Deploy C
+oc new-app --name app-c \
+  -i rest-routing-test/rest-router:latest \
+  -e APP_NAME=app-c \
+  -e APP_ROUTING_DESTINATION= \
+  -n rest-routing-test
+
+# Deploy D
+oc new-app --name app-d \
+  -i rest-routing-test/rest-router:latest \
+  -e APP_NAME=app-d \
+  -e APP_ROUTING_DESTINATION= \
+  -n rest-routing-test
+
+
 ```
 
 ## Run Locally

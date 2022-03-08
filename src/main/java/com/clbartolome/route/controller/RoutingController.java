@@ -27,7 +27,7 @@ public class RoutingController {
     String responses = "";
     for (String route : stringArrayWithDefaults) {
       ResponseEntity<String> response = restTemplate.getForEntity(route, String.class);
-      responses = responses + "::" + response;
+      responses = responses + "::" + response.getBody();
     }
 
     return ResponseEntity.status(HttpStatus.OK).body(name + responses);
