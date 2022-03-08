@@ -15,6 +15,9 @@ public class RoutingController {
   @Value("${app.routing.name}")
   private String name;
 
+  @Value("${app.routing.version}")
+  private String version;
+
   @Value("${app.routing.destinations:}")
   private String[] stringArrayWithDefaults;
 
@@ -27,10 +30,10 @@ public class RoutingController {
     String responses = "";
     for (String route : stringArrayWithDefaults) {
       ResponseEntity<String> response = restTemplate.getForEntity(route, String.class);
-      responses = responses + "::" + response.getBody();
+      responses = responses + " ::: " + response.getBody();
     }
 
-    return ResponseEntity.status(HttpStatus.OK).body(name + responses);
+    return ResponseEntity.status(HttpStatus.OK).body(name + "(" + version + ")" + responses);
   }
 
 }

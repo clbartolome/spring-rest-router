@@ -41,7 +41,7 @@ public class RoutingControllerTests {
     ResponseEntity<String> response = restTemplate.getForEntity(baseUrl + "/route", String.class);
     assertAll(
         () -> assertNotNull(response.getBody()),
-        () -> assertEquals("test", response.getBody()),
+        () -> assertEquals("test(v1)", response.getBody()),
         () -> assertEquals(HttpStatus.OK, response.getStatusCode()));
   }
 
