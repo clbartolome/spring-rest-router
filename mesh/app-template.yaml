@@ -1,0 +1,77 @@
+##################################################################################################
+# APP TEMPLATE
+##################################################################################################
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: rest-router-template
+  annotations:
+    description: "Template to create rest router instances"
+objects:
+  ##################################################################################################
+  # SERVICE
+  ##################################################################################################
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: ${APP_NAME}
+      labels:
+        app: ${APP_NAME}
+        service: ${APP_NAME}
+    spec:
+      ports:
+      - port: 8080
+        name: http
+      selector:
+        app: ${APP_NAME}
+  ##################################################################################################
+  # DEPLOYMENT
+  ##################################################################################################
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ${APP_NAME}-${APP_VERSION}
+      namespace: ${NAMESPACE}
+      labels:
+        app: ${APP_NAME}
+        version: ${APP_VERSION}
+        app.kubernetes.io/part-of: rest-router
+        app.openshift.io/runtime: spring
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: ${APP_NAME}
+          version: ${APP_VERSION}
+      template:
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "true"
+          labels:
+            app: ${APP_NAME}
+            version: ${APP_VERSION}
+        spec:
+          containers:
+          - env:
+            - name: APP_NAME
+              value: ${APP_NAME}
+            - name: APP_ROUTING_DESTINATION
+              value: ${APP_ROUTING_DESTINATION}
+            - name: APP_VERSION
+              value: ${APP_VERSION}
+            image: image-registry.openshift-image-registry.svc:5000/router/rest-router
+            name: rest-router
+            imagePullPolicy: IfNotPresent
+            ports:
+            - containerPort: 8080
+              protocol: TCP
+##################################################################################################
+# APP TEMPLATE PARAMETERS
+##################################################################################################
+parameters:
+  - name: APP_NAME
+  - name: APP_VERSION
+  - name: NAMESPACE
+    value: router
+  - name: APP_ROUTING_DESTINATION
+    value: ""

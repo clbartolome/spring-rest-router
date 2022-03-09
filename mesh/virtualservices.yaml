@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-a
+spec:
+  hosts:
+  - app-a
+  http:
+  - route:
+    - destination:
+        host: app-a
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-b
+spec:
+  hosts:
+  - app-b
+  http:
+  - route:
+    - destination:
+        host: app-b
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-c
+spec:
+  hosts:
+  - app-c
+  http:
+  - route:
+    - destination:
+        host: app-c
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app-d
+spec:
+  hosts:
+  - app-d
+  http:
+  - route:
+    - destination:
+        host: app-d
+---
