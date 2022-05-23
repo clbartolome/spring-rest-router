@@ -1,0 +1,9 @@
+app:
+  routing:
+    name: test
+    version: v1
+    destinations:
+
+opentracing:
+  jaeger:
+    enabled: false

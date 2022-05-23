@@ -1,0 +1,14 @@
+# APPLICATION
+app:
+  routing:
+    name: ${APP_NAME}
+    version: ${APP_VERSION}
+    destinations: ${APP_ROUTING_DESTINATION}
+
+# OPENTRACING
+opentracing:
+  jaeger:
+    log-spans: true
+    http-sender:
+      url: ${JAEGER_COLLECTOR}
+    service-name: ${APP_NAME}-${APP_VERSION}

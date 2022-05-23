@@ -1,0 +1,11 @@
+# APPLICATION
+app:
+  routing:
+    name: ${APP_NAME}
+    version: ${APP_VERSION}
+    destinations: ${APP_ROUTING_DESTINATION}
+
+# OPENTRACING
+opentracing:
+  jaeger:
+    enabled: false

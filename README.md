@@ -99,7 +99,7 @@ oc label deploy app-d \
 ```sh
 
 # Start application using Maven
-mvn spring-boot:run -Dspring-boot.run.jvmArguments="-DAPP_NAME=local-router -DAPP_ROUTING_DESTINATION="
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-DAPP_NAME=local-router -DAPP_VERSION=v1 -Dspring.profiles.active=local -DAPP_ROUTING_DESTINATION="
 
 # Validate
 curl localhost:8080/route
