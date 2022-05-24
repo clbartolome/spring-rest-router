@@ -8,7 +8,8 @@ app:
 # OPENTRACING
 opentracing:
   jaeger:
+    enabled: ${JAEGER_ENABLED}
     log-spans: true
-    http-sender:
-      url: ${JAEGER_COLLECTOR}
+    # http-sender:
+    #   url: ${JAEGER_COLLECTOR}
     service-name: ${APP_NAME}-${APP_VERSION}
