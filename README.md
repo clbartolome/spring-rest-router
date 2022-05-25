@@ -8,8 +8,11 @@ Take a look at [mesh file](mesh/mesh.md) for OCP Service Mesh test.
 
 Done via Environment Variables:
 
-- **APP_NAME**: PostgreSQL host url
+- **APP_NAME**: Application name
+- **APP_VERSION**: Application version
 - **APP_ROUTING_DESTINATION**: Comma separated routes to call (ex: application-b/route,application-c/route)
+- **JAEGER_ENABLED**: Jaeger Collector enabled
+- **JAEGER_COLLECTOR**: Jaeger Collector host url
 
 ## API Documentation & Other Tools
 
@@ -39,12 +42,16 @@ oc new-build \
 # Build image
 oc start-build rest-router
 
+# !! Change propetries JAEGER_ENABLED and JAEGER_COLLECTOR if needed
+
 # Deploy A
 oc new-app --name app-a \
   -i rest-routing-test/rest-router:latest \
   -e APP_NAME=app-a \
   -e APP_ROUTING_DESTINATION=http://app-b:8080/route,http://app-c:8080/route \
   -e APP_VERSION=v1 \
+  -e JAEGER_ENABLED=false \
+  -e JAEGER_COLLECTOR=http://none \
   -n rest-routing-test
 
 oc expose svc app-a
@@ -61,6 +68,8 @@ oc new-app --name app-b \
   -e APP_NAME=app-b \
   -e APP_ROUTING_DESTINATION=http://app-d:8080/route \
   -e APP_VERSION=v1 \
+  -e JAEGER_ENABLED=false \
+  -e JAEGER_COLLECTOR=http://none \
   -n rest-routing-test
 
 oc label deploy app-b \
@@ -74,6 +83,8 @@ oc new-app --name app-c \
   -i rest-routing-test/rest-router:latest \
   -e APP_NAME=app-c \
   -e APP_ROUTING_DESTINATION= \
+  -e JAEGER_ENABLED=false \
+  -e JAEGER_COLLECTOR=http://none \
   -n rest-routing-test
 
 oc label deploy app-c \
@@ -86,6 +97,8 @@ oc new-app --name app-d \
   -i rest-routing-test/rest-router:latest \
   -e APP_NAME=app-d \
   -e APP_ROUTING_DESTINATION= \
+  -e JAEGER_ENABLED=false \
+  -e JAEGER_COLLECTOR=http://none \
   -n rest-routing-test
 
 oc label deploy app-d \

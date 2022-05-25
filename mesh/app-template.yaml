@@ -57,6 +57,10 @@ objects:
               value: ${APP_NAME}
             - name: APP_ROUTING_DESTINATION
               value: ${APP_ROUTING_DESTINATION}
+            - name: JAEGER_ENABLED
+              value: true
+            - name: JAEGER_COLLECTOR
+              value: ${JAEGER_COLLECTOR}
             - name: APP_VERSION
               value: ${APP_VERSION}
             image: image-registry.openshift-image-registry.svc:5000/router/rest-router
@@ -75,3 +79,4 @@ parameters:
     value: router
   - name: APP_ROUTING_DESTINATION
     value: ""
+  - name: JAEGER_COLLECTOR

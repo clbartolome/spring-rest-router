@@ -3,7 +3,7 @@
 ![istio](istio.png)
 
 ## Installation
-
+œ
 - Install the following operators:
   - OpenShift Elasticsearch
   - Red Hat OpenShift distributed tracing platform
@@ -15,7 +15,12 @@
   oc new-project istio-system
 
   oc create -f mesh/controlplane.yaml -n istio-system
-  ````
+  ```
+
+- Get Jaeger Collector URL:
+```sh
+JAEGER_COLLECTOR=$()
+```
 
 - Add Rest Router to the mesh:
   ```sh
@@ -39,6 +44,7 @@
     -p APP_NAME=app-a \
     -p APP_VERSION=v1 \
     -p APP_ROUTING_DESTINATION=http://app-b:8080/route,http://app-c:8080/route \
+    -p JAEGER_COLLECTOR=$JAEGER_COLLECTOR \
     -n router \
     | oc apply -f -
 
@@ -47,6 +53,7 @@
     -p APP_NAME=app-b \
     -p APP_VERSION=v1 \
     -p APP_ROUTING_DESTINATION=http://app-d:8080/route \
+    -p JAEGER_COLLECTOR=$JAEGER_COLLECTOR \
     -n router \
     | oc apply -f -
 
@@ -54,6 +61,7 @@
   oc process -f mesh/app-template.yaml \
     -p APP_NAME=app-c \
     -p APP_VERSION=v1 \
+    -p JAEGER_COLLECTOR=$JAEGER_COLLECTOR \
     -n router \
     | oc apply -f -
 
@@ -61,6 +69,7 @@
   oc process -f mesh/app-template.yaml \
     -p APP_NAME=app-c \
     -p APP_VERSION=v2 \
+    -p JAEGER_COLLECTOR=$JAEGER_COLLECTOR \
     -n router \
     | oc apply -f -
 
@@ -68,6 +77,7 @@
   oc process -f mesh/app-template.yaml \
     -p APP_NAME=app-d \
     -p APP_VERSION=v1 \
+    -p JAEGER_COLLECTOR=$JAEGER_COLLECTOR \
     -n router \
     | oc apply -f -
 
@@ -75,6 +85,7 @@
   oc process -f mesh/app-template.yaml \
     -p APP_NAME=app-d \
     -p APP_VERSION=v2 \
+    -p JAEGER_COLLECTOR=$JAEGER_COLLECTOR \
     -n router \
     | oc apply -f -
 
