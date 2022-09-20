@@ -58,12 +58,12 @@ objects:
             - name: APP_ROUTING_DESTINATION
               value: ${APP_ROUTING_DESTINATION}
             - name: JAEGER_ENABLED
-              value: true
+              value: "false"
             - name: JAEGER_COLLECTOR
               value: ${JAEGER_COLLECTOR}
             - name: APP_VERSION
               value: ${APP_VERSION}
-            image: image-registry.openshift-image-registry.svc:5000/router/rest-router
+            image: image-registry.openshift-image-registry.svc:5000/mesh-demo/rest-router
             name: rest-router
             imagePullPolicy: IfNotPresent
             ports:
@@ -76,7 +76,8 @@ parameters:
   - name: APP_NAME
   - name: APP_VERSION
   - name: NAMESPACE
-    value: router
+    value: mesh-demo
   - name: APP_ROUTING_DESTINATION
     value: ""
   - name: JAEGER_COLLECTOR
+    value: ""
